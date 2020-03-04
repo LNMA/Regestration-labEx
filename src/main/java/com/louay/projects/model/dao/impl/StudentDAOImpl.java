@@ -1,9 +1,8 @@
-package com.louay.regestration.model1.dao.impl;
+package com.louay.projects.model.dao.impl;
 
-import com.louay.regestration.model1.dao.StudentDAO;
-import com.louay.regestration.model1.entity.Student;
-import com.louay.regestration.model1.util.MyConnectionPool;
-import com.mysql.cj.MysqlConnection;
+import com.louay.projects.model.dao.StudentDAO;
+import com.louay.projects.model.entity.Student;
+import com.louay.projects.model.util.MyConnectionPool;
 
 import java.sql.*;
 

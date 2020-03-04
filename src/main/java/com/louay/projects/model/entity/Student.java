@@ -1,4 +1,4 @@
-package com.louay.regestration.model1.entity;
+package com.louay.projects.model.entity;
 
 public class Student {
     String id;

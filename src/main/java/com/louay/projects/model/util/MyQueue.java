@@ -1,4 +1,4 @@
-package com.louay.regestration.model1.util;
+package com.louay.projects.model.util;
 
 import java.util.LinkedList;
 

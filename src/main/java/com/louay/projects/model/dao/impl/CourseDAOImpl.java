@@ -1,9 +1,8 @@
-package com.louay.regestration.model1.dao.impl;
+package com.louay.projects.model.dao.impl;
 
-import com.louay.regestration.model1.dao.CourseDAO;
-import com.louay.regestration.model1.entity.Course;
-import com.louay.regestration.model1.entity.Student;
-import com.louay.regestration.model1.util.MyConnectionPool;
+import com.louay.projects.model.dao.CourseDAO;
+import com.louay.projects.model.entity.Course;
+import com.louay.projects.model.util.MyConnectionPool;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,6 +1,6 @@
-package com.louay.regestration.model1.dao;
+package com.louay.projects.model.dao;
 
-import com.louay.regestration.model1.entity.Course;
+import com.louay.projects.model.entity.Course;
 
 public interface CourseDAO {
     Course findById(String key);
