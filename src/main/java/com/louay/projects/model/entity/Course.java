@@ -7,6 +7,7 @@ public class Course {
     private Integer capacity;
     private String Instructor;
 
+
     public Course() {
     }
 
@@ -60,4 +61,5 @@ public class Course {
                 ", Instructor='" + Instructor + '\'' +
                 '}';
     }
+
 }

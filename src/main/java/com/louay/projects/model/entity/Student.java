@@ -8,6 +8,7 @@ public class Student {
     private String password;
     private Integer joinYear;
 
+
     public Student() {
     }
 
@@ -70,4 +71,5 @@ public class Student {
                 ", joinYear=" + joinYear +
                 '}';
     }
+
 }

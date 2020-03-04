@@ -7,6 +7,7 @@ public class ConnectionWrapper {
     private Connection connection;
     private LocalDateTime dataCreate;
 
+
     public ConnectionWrapper(Connection connection) {
         this.connection = connection;
         this.dataCreate = LocalDateTime.now();
@@ -19,4 +20,5 @@ public class ConnectionWrapper {
     public Connection getConnection() {
         return this.connection;
     }
+
 }

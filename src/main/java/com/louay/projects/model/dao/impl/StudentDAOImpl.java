@@ -8,8 +8,8 @@ import com.louay.projects.model.util.pool.MyConnectionPool;
 import java.sql.*;
 
 public class StudentDAOImpl implements StudentDAO {
-    private MyConnectionPool pool ;
-    private DBConnectionConfig dbConfig ;
+    private MyConnectionPool pool;
+    private DBConnectionConfig dbConfig;
 
 
     public StudentDAOImpl() {
@@ -20,7 +20,7 @@ public class StudentDAOImpl implements StudentDAO {
         this.dbConfig.setSchema("regestration");
         this.dbConfig.setUsername("root");
         this.dbConfig.setPassword("1729384#General");
-        this.pool = new MyConnectionPool(this.dbConfig.getUrl(), dbConfig.getUsername(), this.dbConfig.getPassword());
+        this.pool = new MyConnectionPool(this.dbConfig.getUrl(), this.dbConfig.getUsername(), this.dbConfig.getPassword());
     }
 
     @Override

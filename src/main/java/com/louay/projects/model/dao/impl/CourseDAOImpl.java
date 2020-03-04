@@ -9,8 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class CourseDAOImpl implements CourseDAO {
-    private MyConnectionPool pool ;
-    private DBConnectionConfig dbConfig ;
+    private MyConnectionPool pool;
+    private DBConnectionConfig dbConfig;
+
 
     public CourseDAOImpl() {
         this.dbConfig = new DBConnectionConfig();
@@ -20,7 +21,7 @@ public class CourseDAOImpl implements CourseDAO {
         this.dbConfig.setSchema("regestration");
         this.dbConfig.setUsername("root");
         this.dbConfig.setPassword("1729384#General");
-        this.pool = new MyConnectionPool(this.dbConfig.getUrl(), dbConfig.getUsername(), this.dbConfig.getPassword());
+        this.pool = new MyConnectionPool(this.dbConfig.getUrl(), this.dbConfig.getUsername(), this.dbConfig.getPassword());
     }
 
     @Override

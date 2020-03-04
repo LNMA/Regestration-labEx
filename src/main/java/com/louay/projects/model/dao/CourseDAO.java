@@ -15,4 +15,5 @@ public interface CourseDAO {
     Course update(Course course);
 
     boolean delete(Course course);
+
 }

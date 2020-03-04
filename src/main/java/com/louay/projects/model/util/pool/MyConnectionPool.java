@@ -5,11 +5,12 @@ import com.louay.projects.model.util.queue.MyQueue;
 
 import java.sql.*;
 
-public class MyConnectionPool{
+public class MyConnectionPool {
     private MyList<ConnectionWrapper> connection;
     private String url;
     private String username;
-    private String password ;
+    private String password;
+
 
     public MyConnectionPool(String url, String username, String password) {
         this.url = url;
@@ -18,27 +19,27 @@ public class MyConnectionPool{
         connection = new MyQueue<>(10);
     }
 
-    public Connection getConnection () throws SQLException {
-        if (this.connection.isEmpty()){
-            return  new ConnectionWrapper(DriverManager.getConnection(url , username , password)).getConnection();
-        }else{
+    public Connection getConnection() throws SQLException {
+        if (this.connection.isEmpty()) {
+            return new ConnectionWrapper(DriverManager.getConnection(url, username, password)).getConnection();
+        } else {
             ConnectionWrapper connectionWrapper = this.connection.dequeue();
-            if (connectionWrapper.isAlive()){
+            if (connectionWrapper.isAlive()) {
                 return connectionWrapper.getConnection();
-            }else{
+            } else {
                 connectionWrapper.getConnection().close();
                 return getConnection();
             }
         }
     }
 
-    public ResultSet selectResult(String query,String key){
+    public ResultSet selectResult(String query, String key) {
         ResultSet resultSet = null;
-        try{
+        try {
             PreparedStatement preparedStatement = this.getConnection().prepareStatement(query);
-            preparedStatement.setString(1,key);
+            preparedStatement.setString(1, key);
             resultSet = preparedStatement.executeQuery();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
@@ -56,6 +57,5 @@ public class MyConnectionPool{
     public String getPassword() {
         return password;
     }
-
 
 }
