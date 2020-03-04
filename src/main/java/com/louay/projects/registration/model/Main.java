@@ -1,7 +1,7 @@
-package com.louay.projects.model;
+package com.louay.projects.registration.model;
 
-import com.louay.projects.model.dao.CourseDAO;
-import com.louay.projects.model.dao.impl.CourseDAOImpl;
+import com.louay.projects.registration.model.dao.CourseDAO;
+import com.louay.projects.registration.model.dao.impl.CourseDAOImpl;
 
 public class Main {
     public static void main(String[] args) {

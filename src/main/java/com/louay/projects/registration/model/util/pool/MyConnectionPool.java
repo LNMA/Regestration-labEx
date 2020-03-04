@@ -1,7 +1,7 @@
-package com.louay.projects.model.util.pool;
+package com.louay.projects.registration.model.util.pool;
 
-import com.louay.projects.model.util.queue.MyList;
-import com.louay.projects.model.util.queue.MyQueue;
+import com.louay.projects.registration.model.util.queue.MyList;
+import com.louay.projects.registration.model.util.queue.MyQueue;
 
 import java.sql.*;
 

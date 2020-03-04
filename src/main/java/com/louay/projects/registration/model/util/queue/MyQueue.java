@@ -1,7 +1,6 @@
-package com.louay.projects.model.util.queue;
+package com.louay.projects.registration.model.util.queue;
 
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class MyQueue<T> implements MyList<T> {
     private int maxSize;

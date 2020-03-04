@@ -1,4 +1,4 @@
-package com.louay.projects.model.util.pool;
+package com.louay.projects.registration.model.util.pool;
 
 public class DBConnectionConfig {
 

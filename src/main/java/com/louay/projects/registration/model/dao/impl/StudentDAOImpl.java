@@ -1,9 +1,9 @@
-package com.louay.projects.model.dao.impl;
+package com.louay.projects.registration.model.dao.impl;
 
-import com.louay.projects.model.dao.StudentDAO;
-import com.louay.projects.model.entity.Student;
-import com.louay.projects.model.util.pool.DBConnectionConfig;
-import com.louay.projects.model.util.pool.MyConnectionPool;
+import com.louay.projects.registration.model.dao.StudentDAO;
+import com.louay.projects.registration.model.entity.Student;
+import com.louay.projects.registration.model.util.pool.DBConnectionConfig;
+import com.louay.projects.registration.model.util.pool.MyConnectionPool;
 
 import java.sql.*;
 

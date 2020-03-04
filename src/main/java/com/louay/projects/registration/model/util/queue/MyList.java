@@ -1,4 +1,4 @@
-package com.louay.projects.model.util.queue;
+package com.louay.projects.registration.model.util.queue;
 
 public interface MyList <E> {
 

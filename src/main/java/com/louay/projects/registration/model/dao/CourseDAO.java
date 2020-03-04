@@ -1,6 +1,6 @@
-package com.louay.projects.model.dao;
+package com.louay.projects.registration.model.dao;
 
-import com.louay.projects.model.entity.Course;
+import com.louay.projects.registration.model.entity.Course;
 
 public interface CourseDAO {
 
