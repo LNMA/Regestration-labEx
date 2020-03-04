@@ -1,21 +1,14 @@
-package com.louay.projects.model.entity;
+package com.louay.projects.registration.model.entity;
 
 public class Course {
-    String id;
-    String name;
-    String code;
-    Integer capacity;
-    String Instructor;
+    private String id;
+    private String name;
+    private String code;
+    private Integer capacity;
+    private String Instructor;
+
 
     public Course() {
-    }
-
-    public Course(String id, String name, String code, Integer capacity, String instructor) {
-        this.id = id;
-        this.name = name;
-        this.code = code;
-        this.capacity = capacity;
-        Instructor = instructor;
     }
 
     public String getId() {
@@ -68,4 +61,5 @@ public class Course {
                 ", Instructor='" + Instructor + '\'' +
                 '}';
     }
+
 }
