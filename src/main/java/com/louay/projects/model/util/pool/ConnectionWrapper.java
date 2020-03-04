@@ -1,10 +1,10 @@
-package com.louay.projects.model.util;
+package com.louay.projects.model.util.pool;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
 
 public class ConnectionWrapper {
-    private Connection connection ;
+    private Connection connection;
     private LocalDateTime dataCreate;
 
     public ConnectionWrapper(Connection connection) {
@@ -12,8 +12,8 @@ public class ConnectionWrapper {
         this.dataCreate = LocalDateTime.now();
     }
 
-    public boolean isAlive(){
-        return dataCreate.plusHours(6).compareTo(LocalDateTime.now())>=0 ? false : true;
+    public boolean isAlive() {
+        return dataCreate.plusHours(6).compareTo(LocalDateTime.now()) >= 0 ? false : true;
     }
 
     public Connection getConnection() {

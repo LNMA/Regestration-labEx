@@ -1,11 +1,13 @@
-package com.louay.projects.model.util;
+package com.louay.projects.model.util.queue;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
-public class MyQueue<T> {
+public class MyQueue<T> implements MyList<T> {
     private int maxSize;
     private int size;
     private LinkedList<T> list;
+
 
     public MyQueue() {
         this.list = new LinkedList<T>();
@@ -17,37 +19,35 @@ public class MyQueue<T> {
         this.list = new LinkedList<T>();
     }
 
-    public void enqueue(T item) throws RuntimeException{
-        if (isFull()){
+    @Override
+    public void enqueue(T item) {
+        if (isFull()) {
             throw new RuntimeException("Queue is fully, you cannot enqueue to fully queue");
         }
         this.list.addLast(item);
     }
 
-    public T dequeue() throws RuntimeException{
-        if (isEmpty()){
+    @Override
+    public T dequeue() {
+        if (isEmpty()) {
             throw new RuntimeException("Queue is empty, You cannot dequeue from empty queue.");
         }
         return this.list.removeFirst();
     }
 
-    public boolean isFull(){
-        if (this.list.size() >= this.maxSize ){
-            return true;
-        }else{
-            return false;
-        }
+    @Override
+    public boolean isFull() {
+        return this.list.size() >= this.maxSize;
     }
 
-    public int size(){
+    @Override
+    public int size() {
         return this.list.size();
     }
 
-    public boolean isEmpty(){
-        if (list.size() == 0){
-            return true;
-        }else {
-            return false;
-        }
+    @Override
+    public boolean isEmpty() {
+        return list.size() == 0;
     }
+
 }

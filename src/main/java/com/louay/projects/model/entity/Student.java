@@ -1,21 +1,12 @@
 package com.louay.projects.model.entity;
 
 public class Student {
-    String id;
-    String firstName;
-    String lastName;
-    String email;
-    String password;
-    Integer joinYear;
-
-    public Student(String id, String firstName, String lastName, String email, String password, Integer joinYear) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.joinYear = joinYear;
-    }
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private Integer joinYear;
 
     public Student() {
     }
