@@ -46,6 +46,28 @@ public class MyConnectionPool {
         return resultSet;
     }
 
+    public void updateQuery(String query,Object...objects){
+        try{
+            PreparedStatement update = this.getConnection().prepareStatement(query);
+            for (int i = 0; i < objects.length ; i++) {
+                if (objects[i] instanceof String){
+                    update.setString((i+1), (String)objects[i]);
+                }else{
+                    if (objects[i] instanceof Integer){
+                        update.setInt((i+1),(Integer)objects[i]);
+                    }else {
+                        if (objects[i] instanceof java.sql.Date){
+                            update.setDate((i+1),(java.sql.Date)objects[i]);
+                        }
+                    }
+                }
+            }
+            update.executeUpdate();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public String getUrl() {
         return url;
     }

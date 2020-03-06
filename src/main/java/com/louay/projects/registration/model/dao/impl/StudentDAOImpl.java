@@ -27,7 +27,7 @@ public class StudentDAOImpl implements StudentDAO {
     public Student findById(String key) {
         Student student = null;
         try {
-            ResultSet resultSet = pool.selectResult("select * from student where idStudent = ? ", key);
+            ResultSet resultSet = pool.selectResult("select * from student where `idStudent` = ? ", key);
             student = buildStudent(resultSet);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -39,7 +39,7 @@ public class StudentDAOImpl implements StudentDAO {
     public Student findByEmail(String key) {
         Student student = null;
         try {
-            ResultSet resultSet = pool.selectResult("select * from student where email = ? ", key);
+            ResultSet resultSet = pool.selectResult("select * from student where `email` = ? ", key);
             student = buildStudent(resultSet);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -74,7 +74,7 @@ public class StudentDAOImpl implements StudentDAO {
             String email = student.getEmail();
             String password = student.getPassword();
             Integer joinYear = student.getJoinYear();
-            PreparedStatement create = pool.getConnection().prepareStatement("insert into student(idStudent,firstName,lastName,email,password,joinYear) value(?,?,?,?,?,?) ");
+            PreparedStatement create = pool.getConnection().prepareStatement("insert into student(`idStudent`,`firstName`,`lastName`,`email`,`password`,`joinYear`) value(?,?,?,?,?,?) ");
             create.setString(1, idStudent);
             create.setString(2, firstName);
             create.setString(3, lastName);
@@ -97,14 +97,8 @@ public class StudentDAOImpl implements StudentDAO {
             String email = student.getEmail();
             String password = student.getPassword();
             Integer joinYear = student.getJoinYear();
-            PreparedStatement update = pool.getConnection().prepareStatement("update student set firstName = ?,lastName = ?,email = ?,password = ?,joinYear = ? where idStudent = ?");
-            update.setString(1, firstName);
-            update.setString(2, lastName);
-            update.setString(3, email);
-            update.setString(4, password);
-            update.setInt(5, joinYear);
-            update.setString(6, idStudent);
-            update.executeUpdate();
+            this.pool.updateQuery("update student set `firstName` = ?,`lastName` = ?,`email` = ?,`password`= ?," +
+                    "`joinYear` = ? where `idStudent` = ?",firstName,lastName,email,password,joinYear,idStudent);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -114,7 +108,7 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public boolean delete(Student student) {
         try {
-            PreparedStatement delete = pool.getConnection().prepareStatement("delete from student where idStudent = ?");
+            PreparedStatement delete = pool.getConnection().prepareStatement("delete from student where `idStudent` = ?");
             delete.setString(1, student.getId());
             delete.executeUpdate();
         } catch (Exception e) {

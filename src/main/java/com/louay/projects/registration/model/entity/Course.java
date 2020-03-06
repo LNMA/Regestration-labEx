@@ -1,11 +1,16 @@
 package com.louay.projects.registration.model.entity;
 
+import java.sql.Date;
+
 public class Course {
     private String id;
     private String name;
     private String code;
     private Integer capacity;
     private String Instructor;
+    private java.sql.Date startingDate;
+    private int durationDay;
+    private int hour;
 
 
     public Course() {
@@ -51,6 +56,30 @@ public class Course {
         Instructor = instructor;
     }
 
+    public java.sql.Date getStartingDate() {
+        return startingDate;
+    }
+
+    public void setStartingDate(java.sql.Date startingDate) {
+        this.startingDate = startingDate;
+    }
+
+    public int getDurationDay() {
+        return durationDay;
+    }
+
+    public void setDurationDay(int durationDay) {
+        this.durationDay = durationDay;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -59,7 +88,9 @@ public class Course {
                 ", code='" + code + '\'' +
                 ", capacity=" + capacity +
                 ", Instructor='" + Instructor + '\'' +
+                ", startingDate=" + startingDate +
+                ", durationDay=" + durationDay +
+                ", hour=" + hour +
                 '}';
     }
-
 }

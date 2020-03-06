@@ -7,6 +7,7 @@ import com.louay.projects.registration.model.util.pool.MyConnectionPool;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CourseDAOImpl implements CourseDAO {
     private MyConnectionPool pool;
@@ -28,7 +29,7 @@ public class CourseDAOImpl implements CourseDAO {
     public Course findById(String key) {
         Course course = null;
         try {
-            ResultSet resultSet = pool.selectResult("select * from course where idCourse = ? ", key);
+            ResultSet resultSet = pool.selectResult("select * from course where `idCourse` = ? ", key);
             course = buildCourse(resultSet);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -52,7 +53,7 @@ public class CourseDAOImpl implements CourseDAO {
     public Course findByInstructor(String key) {
         Course course = null;
         try {
-            ResultSet resultSet = pool.selectResult("select * from course where instructor = ? ", key);
+            ResultSet resultSet = pool.selectResult("select * from course where `instructor` = ? ", key);
             course = buildCourse(resultSet);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -70,6 +71,10 @@ public class CourseDAOImpl implements CourseDAO {
                 course.setCode(resultSet.getString(3));
                 course.setCapacity(resultSet.getInt(4));
                 course.setInstructor(resultSet.getString(5));
+                course.setStartingDate(resultSet.getDate(6));
+                course.setDurationDay(resultSet.getInt(7));
+                course.setHour(resultSet.getInt(8));
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -85,7 +90,7 @@ public class CourseDAOImpl implements CourseDAO {
             String code = course.getCode();
             Integer capacity = course.getCapacity();
             String instructor = course.getInstructor();
-            PreparedStatement create = pool.getConnection().prepareStatement("insert into course(idCourse,`name`,code,capacity,instructor) value(?,?,?,?,?); ");
+            PreparedStatement create = pool.getConnection().prepareStatement("insert into course(`idCourse`,`name`,`code`,`capacity`,`instructor`,`startingDate`,`durationDay`,`hour`) value(?,?,?,?,?,?,?,?); ");
             create.setString(1, idCourse);
             create.setString(2, name);
             create.setString(3, code);
@@ -106,13 +111,12 @@ public class CourseDAOImpl implements CourseDAO {
             String code = course.getCode();
             Integer capacity = course.getCapacity();
             String instructor = course.getInstructor();
-            PreparedStatement update = pool.getConnection().prepareStatement("update course set `name`= ?,code = ?,capacity = ?,instructor=? where idCourse = ?; ");
-            update.setString(1, name);
-            update.setString(2, code);
-            update.setInt(3, capacity);
-            update.setString(4, instructor);
-            update.setString(5, idCourse);
-            update.executeUpdate();
+            java.sql.Date startingDate = course.getStartingDate();
+            Integer durationDay = course.getDurationDay();
+            Integer hour = course.getHour();
+            this.pool.updateQuery("update course set `name`= ?,`code` = ?,`capacity` = ?" +
+                    ",`instructor` = ?,`startingDate` = ?,`durationDay` = ?,`hour` = ?" +
+                    " where `idCourse` = ?; ",name,code,capacity,instructor,startingDate,durationDay,hour,idCourse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -121,12 +125,12 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Override
     public boolean delete(Course course) {
+        PreparedStatement delete = null;
         try {
-            PreparedStatement delete = pool.getConnection().prepareStatement("delete from course where idCourse = ?");
+            delete = pool.getConnection().prepareStatement("delete from course where `idCourse` = ?");
             delete.setString(1, course.getId());
-            delete.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return true;
     }
