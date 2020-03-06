@@ -10,6 +10,7 @@ public class MyConnectionPool {
     private String url;
     private String username;
     private String password;
+    private static MyConnectionPool myConnectionPool = null;
 
 
     public MyConnectionPool(String url, String username, String password) {
@@ -33,6 +34,14 @@ public class MyConnectionPool {
         }
     }
 
+    public static MyConnectionPool getMyPooling (String url, String username, String password){
+        if (MyConnectionPool.myConnectionPool == null){
+               return MyConnectionPool.myConnectionPool = new MyConnectionPool( url,  username,  password);
+        }else {
+            return MyConnectionPool.myConnectionPool;
+        }
+    }
+
     public ResultSet selectResult(String query, String key) {
         ResultSet resultSet = null;
         try {
@@ -46,26 +55,32 @@ public class MyConnectionPool {
         return resultSet;
     }
 
-    public void updateQuery(String query,Object...objects){
-        try{
+    public int updateQuery(String query,Object...objects) {
+        int result = 0;
+        try {
             PreparedStatement update = this.getConnection().prepareStatement(query);
-            for (int i = 0; i < objects.length ; i++) {
-                if (objects[i] instanceof String){
-                    update.setString((i+1), (String)objects[i]);
-                }else{
-                    if (objects[i] instanceof Integer){
-                        update.setInt((i+1),(Integer)objects[i]);
-                    }else {
-                        if (objects[i] instanceof java.sql.Date){
-                            update.setDate((i+1),(java.sql.Date)objects[i]);
+            for (int i = 0; i < objects.length; i++) {
+                if (objects[i] instanceof String) {
+                    update.setString((i + 1), (String) objects[i]);
+                } else {
+                    if (objects[i] instanceof Integer) {
+                        update.setInt((i + 1), (Integer) objects[i]);
+                    } else {
+                        if (objects[i] instanceof java.sql.Date) {
+                            update.setDate((i + 1), (java.sql.Date) objects[i]);
+                        } else {
+                            if (objects[i] instanceof Long) {
+                                update.setLong((i + 1), (Long) objects[i]);
+                            }
                         }
                     }
                 }
             }
-            update.executeUpdate();
-        }catch (Exception e){
+            result = update.executeUpdate();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return result;
     }
 
     public String getUrl() {

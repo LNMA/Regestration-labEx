@@ -22,7 +22,7 @@ public class CourseDAOImpl implements CourseDAO {
         this.dbConfig.setSchema("regestration");
         this.dbConfig.setUsername("root");
         this.dbConfig.setPassword("1729384#General");
-        this.pool = new MyConnectionPool(this.dbConfig.getUrl(), this.dbConfig.getUsername(), this.dbConfig.getPassword());
+        this.pool = MyConnectionPool.getMyPooling(this.dbConfig.getUrl(), this.dbConfig.getUsername(), this.dbConfig.getPassword());
     }
 
     @Override
@@ -90,13 +90,8 @@ public class CourseDAOImpl implements CourseDAO {
             String code = course.getCode();
             Integer capacity = course.getCapacity();
             String instructor = course.getInstructor();
-            PreparedStatement create = pool.getConnection().prepareStatement("insert into course(`idCourse`,`name`,`code`,`capacity`,`instructor`,`startingDate`,`durationDay`,`hour`) value(?,?,?,?,?,?,?,?); ");
-            create.setString(1, idCourse);
-            create.setString(2, name);
-            create.setString(3, code);
-            create.setInt(4, capacity);
-            create.setString(5, instructor);
-            create.executeUpdate();
+            this.pool.updateQuery("insert into course(`idCourse`,`name`,`code`,`capacity`,`instructor`,`startingDate`,`durationDay`,`hour`)" +
+                    " value(?,?,?,?,?,?,?,?); ",idCourse,name,code,capacity,instructor);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

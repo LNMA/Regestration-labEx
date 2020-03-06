@@ -20,7 +20,7 @@ public class StudentDAOImpl implements StudentDAO {
         this.dbConfig.setSchema("regestration");
         this.dbConfig.setUsername("root");
         this.dbConfig.setPassword("1729384#General");
-        this.pool = new MyConnectionPool(this.dbConfig.getUrl(), this.dbConfig.getUsername(), this.dbConfig.getPassword());
+        this.pool = MyConnectionPool.getMyPooling(this.dbConfig.getUrl(), this.dbConfig.getUsername(), this.dbConfig.getPassword());
     }
 
     @Override
@@ -74,14 +74,8 @@ public class StudentDAOImpl implements StudentDAO {
             String email = student.getEmail();
             String password = student.getPassword();
             Integer joinYear = student.getJoinYear();
-            PreparedStatement create = pool.getConnection().prepareStatement("insert into student(`idStudent`,`firstName`,`lastName`,`email`,`password`,`joinYear`) value(?,?,?,?,?,?) ");
-            create.setString(1, idStudent);
-            create.setString(2, firstName);
-            create.setString(3, lastName);
-            create.setString(4, email);
-            create.setString(5, password);
-            create.setInt(6, joinYear);
-            create.executeUpdate();
+            this.pool.updateQuery("insert into student(`idStudent`,`firstName`,`lastName`,`email`,`password`,`joinYear`)" +
+                    " value(?,?,?,?,?,?) ",idStudent,firstName,lastName,email,password,joinYear);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
