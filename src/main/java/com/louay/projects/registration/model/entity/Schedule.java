@@ -8,12 +8,6 @@ public class Schedule {
     public Schedule() {
     }
 
-    public Schedule(int idSchedule, String idCourse, String idStudent) {
-        this.idSchedule = idSchedule;
-        this.idCourse = idCourse;
-        this.idStudent = idStudent;
-    }
-
     public int getIdSchedule() {
         return idSchedule;
     }

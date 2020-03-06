@@ -61,7 +61,8 @@ public class CourseDAOImpl implements CourseDAO {
         return course;
     }
 
-    private Course buildCourse(ResultSet resultSet) {
+    @Override
+    public Course buildCourse(ResultSet resultSet) {
         Course course = null;
         try {
             if (resultSet.next()) {

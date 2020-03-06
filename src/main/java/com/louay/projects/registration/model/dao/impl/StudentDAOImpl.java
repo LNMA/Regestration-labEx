@@ -47,7 +47,8 @@ public class StudentDAOImpl implements StudentDAO {
         return student;
     }
 
-    private Student buildStudent(ResultSet resultSet) {
+    @Override
+    public Student buildStudent(ResultSet resultSet) {
         Student student = null;
         try {
             if (resultSet.next()) {
