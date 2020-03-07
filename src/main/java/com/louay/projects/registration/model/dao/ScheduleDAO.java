@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ScheduleDAO {
 
-    List<Schedule> findByIDSchedule(String key);
+    List<Schedule> findByIDCourseAndStudent(Student student, Course course);
 
     List<Student> findByIDCourse(String key);
 

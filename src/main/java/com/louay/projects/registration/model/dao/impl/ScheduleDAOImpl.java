@@ -37,10 +37,10 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     }
 
     @Override
-    public List<Schedule> findByIDSchedule(String key) {
+    public List<Schedule> findByIDCourseAndStudent(Student student, Course course) {
         List<Schedule> list = null;
         try {
-            ResultSet resultSet = pool.selectResult("select * from schedule where `idSchedule` = ? ", key);
+            ResultSet resultSet = pool.selectResult("select * from schedule where `idCourse` = ? and `idStudent` = ?", course.getId(),student.getId());
             list = buildScheduleList(resultSet, new ArrayList<>());
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -127,14 +127,24 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     @Override
     public int create(Schedule schedule) {
         int result = 0;
+        int idSchedule=0;
         try {
             String idStudent = schedule.getIdStudent();
             String idCourse = schedule.getIdCourse();
-            result = this.pool.updateQuery("insert into schedule(`idCourse`,`idStudent`) value(?,?) ",idCourse,idStudent);
+            this.pool.updateQuery("insert into schedule(`idCourse`,`idStudent`) value(?,?); ");
+            PreparedStatement create = this.pool.getConnection().prepareStatement("insert into schedule(`idCourse`,`idStudent`) value(?,?); ");
+            create.setString(1, idCourse);
+            create.setString(2, idStudent);
+            create.executeUpdate();
+            ResultSet resultSet = create.executeQuery("select last_insert_id() from schedule");
+            if (resultSet.next()) {
+                idSchedule = resultSet.getInt(1);
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return result;
+        return idSchedule;
     }
 
     @Override

@@ -1,18 +1,18 @@
 package com.louay.projects.registration.model.entity;
 
 public class Schedule {
-    private int idSchedule;
+    private Integer idSchedule;
     private String idCourse;
     private String idStudent;
 
     public Schedule() {
     }
 
-    public int getIdSchedule() {
+    public Integer getIdSchedule() {
         return idSchedule;
     }
 
-    public void setIdSchedule(int idSchedule) {
+    public void setIdSchedule(Integer idSchedule) {
         this.idSchedule = idSchedule;
     }
 
