@@ -1,5 +1,6 @@
 package com.louay.projects.registration.model.util.pool;
 
+import com.louay.projects.registration.model.entity.Schedule;
 import com.louay.projects.registration.model.util.queue.MyList;
 import com.louay.projects.registration.model.util.queue.MyQueue;
 
@@ -42,11 +43,13 @@ public class MyConnectionPool {
         }
     }
 
-    public ResultSet selectResult(String query, String key) {
+    public ResultSet selectResult(String query, String...key) {
         ResultSet resultSet = null;
         try {
             PreparedStatement preparedStatement = this.getConnection().prepareStatement(query);
-            preparedStatement.setString(1, key);
+            for (int i = 0; i < key.length; i++) {
+                    preparedStatement.setString((i+1), key[i]);
+            }
             resultSet = preparedStatement.executeQuery();
         } catch (Exception e) {
             System.out.println(e.getMessage());
