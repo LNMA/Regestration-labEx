@@ -23,7 +23,8 @@ public class MyConnectionPool {
 
     public Connection getConnection() throws SQLException {
         if (this.connection.isEmpty()) {
-            return new ConnectionWrapper(DriverManager.getConnection(url, username, password)).getConnection();
+            this.connection.enqueue(new ConnectionWrapper(DriverManager.getConnection(url, username, password)));
+            return this.connection.dequeue().getConnection();
         } else {
             ConnectionWrapper connectionWrapper = this.connection.dequeue();
             if (connectionWrapper.isAlive()) {

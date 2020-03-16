@@ -19,7 +19,7 @@ public class CourseDAOImpl implements CourseDAO {
         this.dbConfig.setDriver("jdbc:mysql");
         this.dbConfig.setHost("localhost");
         this.dbConfig.setPort("3306");
-        this.dbConfig.setSchema("regestration");
+        this.dbConfig.setSchema("registration");
         this.dbConfig.setUsername("root");
         this.dbConfig.setPassword("1729384#General");
         this.pool = MyConnectionPool.getMyPooling(this.dbConfig.getUrl(), this.dbConfig.getUsername(), this.dbConfig.getPassword());
