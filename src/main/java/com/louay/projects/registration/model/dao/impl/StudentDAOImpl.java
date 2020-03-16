@@ -2,6 +2,7 @@ package com.louay.projects.registration.model.dao.impl;
 
 import com.louay.projects.registration.model.dao.StudentDAO;
 import com.louay.projects.registration.model.entity.Student;
+import com.louay.projects.registration.model.util.pool.ConnectionWrapper;
 import com.louay.projects.registration.model.util.pool.DBConnectionConfig;
 import com.louay.projects.registration.model.util.pool.MyConnectionPool;
 
@@ -10,6 +11,7 @@ import java.sql.*;
 public class StudentDAOImpl implements StudentDAO {
     private MyConnectionPool pool;
     private DBConnectionConfig dbConfig;
+    private ConnectionWrapper wrapper;
 
 
     public StudentDAOImpl() {
@@ -103,9 +105,11 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public boolean delete(Student student) {
         try {
-            PreparedStatement delete = pool.getConnection().prepareStatement("delete from student where `idStudent` = ?");
+            this.wrapper = this.pool.getConnection();
+            PreparedStatement delete = this.wrapper.getConnection().prepareStatement("delete from student where `idStudent` = ?");
             delete.setString(1, student.getId());
             delete.executeUpdate();
+            this.pool.release(this.wrapper);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

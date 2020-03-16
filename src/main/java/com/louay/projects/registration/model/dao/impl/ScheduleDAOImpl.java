@@ -6,6 +6,7 @@ import com.louay.projects.registration.model.dao.StudentDAO;
 import com.louay.projects.registration.model.entity.Course;
 import com.louay.projects.registration.model.entity.Schedule;
 import com.louay.projects.registration.model.entity.Student;
+import com.louay.projects.registration.model.util.pool.ConnectionWrapper;
 import com.louay.projects.registration.model.util.pool.DBConnectionConfig;
 import com.louay.projects.registration.model.util.pool.MyConnectionPool;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class ScheduleDAOImpl implements ScheduleDAO {
     private MyConnectionPool pool;
+    private ConnectionWrapper wrapper;
     private DBConnectionConfig dbConfig;
     private StudentDAO studentDAO;
     private CourseDAO courseDAO;
@@ -126,13 +128,12 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
     @Override
     public int create(Schedule schedule) {
-        int result = 0;
         int idSchedule=0;
         try {
+            this.wrapper = this.pool.getConnection();
             String idStudent = schedule.getIdStudent();
             String idCourse = schedule.getIdCourse();
-            this.pool.updateQuery("insert into schedule(`idCourse`,`idStudent`) value(?,?); ");
-            PreparedStatement create = this.pool.getConnection().prepareStatement("insert into schedule(`idCourse`,`idStudent`) value(?,?); ");
+            PreparedStatement create = this.wrapper.getConnection().prepareStatement("insert into schedule(`idCourse`,`idStudent`) value(?,?);");
             create.setString(1, idCourse);
             create.setString(2, idStudent);
             create.executeUpdate();
@@ -140,7 +141,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
             if (resultSet.next()) {
                 idSchedule = resultSet.getInt(1);
             }
-
+            this.pool.release(this.wrapper);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -166,9 +167,11 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     public int delete(Schedule schedule) {
         int result = 0;
         try {
-            PreparedStatement delete = pool.getConnection().prepareStatement("delete from schedule where `idSchedule` = ?");
+            this.wrapper = this.pool.getConnection();
+            PreparedStatement delete = this.wrapper.getConnection().prepareStatement("delete from schedule where `idSchedule` = ?");
             delete.setInt(1, schedule.getIdSchedule());
             result = delete.executeUpdate();
+            this.pool.release(this.wrapper);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

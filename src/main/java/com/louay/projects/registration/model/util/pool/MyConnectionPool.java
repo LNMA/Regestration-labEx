@@ -8,6 +8,7 @@ import java.sql.*;
 
 public class MyConnectionPool {
     private MyList<ConnectionWrapper> connection;
+    private ConnectionWrapper wrapper;
     private String url;
     private String username;
     private String password;
@@ -21,19 +22,22 @@ public class MyConnectionPool {
         connection = new MyQueue<>(10);
     }
 
-    public Connection getConnection() throws SQLException {
+    public ConnectionWrapper getConnection() throws SQLException {
         if (this.connection.isEmpty()) {
-            this.connection.enqueue(new ConnectionWrapper(DriverManager.getConnection(url, username, password)));
-            return this.connection.dequeue().getConnection();
+            return new ConnectionWrapper(DriverManager.getConnection(url, username, password));
         } else {
             ConnectionWrapper connectionWrapper = this.connection.dequeue();
             if (connectionWrapper.isAlive()) {
-                return connectionWrapper.getConnection();
+                return connectionWrapper;
             } else {
                 connectionWrapper.getConnection().close();
                 return getConnection();
             }
         }
+    }
+
+    public void release(ConnectionWrapper connectionWrapper){
+        this.connection.enqueue(connectionWrapper);
     }
 
     public static MyConnectionPool getMyPooling (String url, String username, String password){
@@ -47,11 +51,13 @@ public class MyConnectionPool {
     public ResultSet selectResult(String query, String...key) {
         ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = this.getConnection().prepareStatement(query);
+            this.wrapper = this.getConnection();
+            PreparedStatement preparedStatement = this.wrapper.getConnection().prepareStatement(query);
             for (int i = 0; i < key.length; i++) {
                     preparedStatement.setString((i+1), key[i]);
             }
             resultSet = preparedStatement.executeQuery();
+            this.release(this.wrapper);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -62,7 +68,8 @@ public class MyConnectionPool {
     public int updateQuery(String query,Object...objects) {
         int result = 0;
         try {
-            PreparedStatement update = this.getConnection().prepareStatement(query);
+            this.wrapper = this.getConnection();
+            PreparedStatement update = this.wrapper.getConnection().prepareStatement(query);
             for (int i = 0; i < objects.length; i++) {
                 if (objects[i] instanceof String) {
                     update.setString((i + 1), (String) objects[i]);
@@ -81,6 +88,7 @@ public class MyConnectionPool {
                 }
             }
             result = update.executeUpdate();
+            this.release(this.wrapper);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
